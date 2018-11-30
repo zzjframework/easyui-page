@@ -1,4 +1,1 @@
-Current Version: 1.6.7
-======================
-This software is allowed to use under freeware license or you need to buy commercial license for better support or other purpose.
-Please contact us at info@jeasyui.com
+此项目是基于EasyUI for jQuery写的一些的页面。以供后续开发使用
