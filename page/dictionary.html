@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据字典</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../js/request.js"></script>
+    <script type="text/javascript" src="dictionary.js"></script>
+</head>
+<body>
+    <table id="table" style="border:1px solid red"></table>
+        <div id="tb" style="padding:8px 16px 8px 16px">
+            <!--搜索-->
+            <div style="padding-left: 10px; padding-bottom: 10px">
+                <form id="formId">
+                    <div style="float: left">字典类型：<input id="dict_type"  name="name" type="text" class="easyui-combobox" style="width: 200px;"  editable="false"/></div>
+                    <div style="float: left;margin-left: 25px">字典名：<input id="dict_name" name="time_from" type="text" class="easyui-combobox" style="width: 200px;"/></div>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div style="float: left;margin-left: 25px">标志：<input id="dict_flag" name="time_flag" type="text" class="easyui-combobox" style="width: 200px;" editable="false"/></div>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div style="float: left">
+                    <a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'," style="margin-left: 20px; padding: 0 10px 0 10px;" onclick="handleSearch();">查询</a>
+                    <a id="reset" href="#" class="easyui-linkbutton" iconCls="icon-reload" style="margin-left: 20px; padding: 0 10px 0 10px;"  onclick="reset();">重置</a>
+                    </div>
+                </form>
+            </div>
+            <div style="padding: 5px;">
+                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add', plain:true," onclick="add();">添加</a>
+            </div>
+        </div>
+
+    <!--新增-->
+    <div id ="form" style="display:none;padding:8px 16px;top:200px;left:500px;">
+	    <form id="add_form" method="post">
+	    	<table style="width:100%">
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>字典类型：</td>
+	    			<td style="text-align:left"><input id ="dictTypeName" type ="text" class="easyui-combobox upinput" style="width:180px" editable="false" data-options="required:true"/></td>
+	    		</tr>
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>字典值：</td>
+	    			<td style="text-align:left"><input id ="dictValue" type ="text" class="easyui-textbox" style="width:180px" data-options="required:true"/></td>
+	    		</tr>
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>字典名(英文)：</td>
+	    			<td style="text-align:left"><input id ="dictEnglishName" type ="text" class="easyui-textbox" style="width:180px" data-options="required:true"/></td>
+	    		</tr>
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>字典名：</td>
+	    			<td style="text-align:left"><input id ="dictName" type ="text" class="easyui-textbox" style="width:180px" data-options="required:true"/></td>
+	    		</tr>
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>标志：</td>
+	    			<td style="text-align:left"><input id ="dictflag" type ="text" class="easyui-combobox inputdom" style="width:180px" editable="false"/></td>
+	    		</tr>
+	    		<tr style="height:40px"><td style="text-align:right">备注：</td><td style="text-align:left"><input id ="remark" type ="text" class="easyui-textbox" style="width:180px"/></td></tr>
+	    	</table>
+	    </form>
+    </div>
+    
+    <!--修改-->
+    <div id ="edit" style="display:none;padding:8px 16px;top:200px;left:500px;">
+    	<form id="update_form" method="post">
+	    	<table style="width:100%">
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>字典类型：</td>
+	    			<td style="text-align:left"><input id ="udictTypeName" type ="text" class="easyui-combobox upinput" style="width:180px" disabled="disabled"/></td>
+	    		</tr>
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>字典值：</td>
+	    			<td style="text-align:left"><input id ="udictValue" type ="text"  class="easyui-textbox"  style="width:180px" disabled="disabled"/></td>
+	    		</tr>
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>字典名(英文)：</td>
+	    			<td style="text-align:left"><input id ="udictEnglishName" type ="text" class="easyui-textbox" style="width:180px" data-options="required:true"/></td>
+	    		</tr>
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>字典名：</td>
+	    			<td style="text-align:left"><input id ="udictName" type ="text" class="easyui-textbox" style="width:180px" disabled="disabled"/></td>
+	    		</tr>
+	    		<tr style="height:40px">
+	    			<td style="text-align:right"><span style="color:red;vertical-align: middle;">*</span>标志：</td>
+	    			<td style="text-align:left"><input id ="uflag" type ="text" class="easyui-combobox inputdom" style="width:180px" editable="false"/></td>
+	    		</tr>
+	    		<tr style="height:40px"><td style="text-align:right">备注：</td><td style="text-align:left"><input id ="uremark" type ="text" class="easyui-textbox" style="width:180px"/></td></tr>
+	    	</table>
+	    </form>
+    </div>
+</body>
+</html>

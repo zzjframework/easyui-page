@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>菜单管理</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../js/request.js"></script>
+    <script type="text/javascript" src="menu-Mng.js"></script>
+    <style>
+        #add-save div{
+            -webkit-margin-before: 1em;
+            -webkit-margin-after: 1em;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+            text-align: left;
+            font-size: 14px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        .required{
+            display: inline-block;
+            margin-right: 4px;
+            content: "*";
+            font-family: SimSun;
+            line-height: 1;
+            font-size: 14px;
+            color: #f5222d;
+        }
+    </style>
+</head>
+<body style="" class="easyui-layout">
+<div data-options="region:'west',split:true,title:'菜单管理'" style="width:250px;">
+    <ul id="MenuTree"></ul>
+</div>
+<div  data-options="region:'center',title:''" style="overflow:hidden">
+    <div id="tt" class="easyui-tabs" fit="true" border="false" plain="true" style="width:100%;height:100%">
+        <div title="菜单操作" style="overflow:hidden;padding:3px">
+            <table id="table" style="border:1px solid red"></table>
+            <div id="tb" style="padding:8px 16px 8px 16px">
+                <!--工具-->
+                <div style="padding: 5px;">
+                    <a href="#" id="add_save_add" class="easyui-linkbutton" data-options="iconCls:'icon-add', plain:true," onclick="add_save.add();">新增</a>
+                    <a href="#"  id="add_save_cudo" class="easyui-linkbutton" data-options="iconCls:'icon-undo', plain:true," onclick="add_save.cudo();">取消</a>
+                    <a href="#"  id="add_save_save" class="easyui-linkbutton" data-options="iconCls:'icon-save', plain:true," onclick="add_save.save();">保存</a>
+                    <a href="#"  id="add_save_remove" class="easyui-linkbutton" data-options="iconCls:'icon-remove', plain:true," onclick="add_save.remove();">删除</a>
+                </div>
+                <!--添加、修改-->
+                <div id="add-save" style="padding-left: 10px; padding-bottom: 10px;text-align: center;">
+                    <form id="menu_form">
+                        <!--<div>
+                            <label style="margin-left: 150px;">pid:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="pid" type="text" name="pid"  />
+                        </div>-->
+                        <div>
+                            <label style="margin-left: 159px">上级菜单名称:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="pname" type="text" name="pname"  />
+                            <label style="margin-left: 200px"><span class="required">*</span>显示编号:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="display_code" type="text" name="display_code" data-options="required:true" />
+                        </div>
+                        <div >
+                            <label style="margin-left: 177px"><span class="required">*</span>菜单名称:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="fname" type="text" name="fname" data-options="required:true" />
+                            <label style="margin-left: 159px"><span class="required">*</span>菜单名称（英）:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="name_eng" type="text" name="name_eng" data-options="required:true" />
+                        </div>
+                        <div>
+                            <label style="margin-left: 183px"><span class="required">*</span>语言key:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="language_key" type="text" name="language_key" data-options="required:true" />
+                            <label style="margin-left: 200px"><span class="required">*</span>菜单路径:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="path" type="text" name="path" data-options="required:true" />
+                        </div>
+                        <div>
+                            <label style="margin-left: 174px">model路径:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="model" type="text" name="model" data-options="required:false" />
+                            <label style="margin-left: 212px">页面路径:</label>
+                            <input style="width: 173px" class="easyui-textbox" id ="page" type="text" name="page" data-options="required:false" />
+                        </div>
+                        <div>
+                            <label style="margin-left: 204px"><span class="required">*</span>状态:</label>
+                            <select id="flag" class="easyui-combobox" name="flag"  style="width: 173px">
+                                <option value="00000000" selected = "selected" >正常</option>
+                                <option value="00000001">停用</option>
+                            </select>
+                            <label style="margin-left: 212px">菜单图标:</label>
+                            <input class="easyui-textbox" id ="icon" type="text" name="icon" data-options="prompt:'请选择'"  style="width: 173px">
+                        </div>
+                        <div>
+                            <label style="margin-left: 215px" >备注:</label>
+                            <input class="easyui-textbox" id ="remark" type="text" name="remark" style="width: 625px" data-options="required:false" />
+                        </div>
+                    </form>
+                </div>
+                <HR style="border: 1px solid gray" width="100%" SIZE=3>
+                <!--功能管理-->
+                <div class="title">
+                    <span style="font-size: 16px;padding: 16px 0;overflow: hidden;white-space: nowrap;color: rgba(0,0,0,.85);font-weight: 500;display: inline-block;-ms-flex: 1 1;flex: 1 1;">
+                        功能管理
+                    </span>
+                </div>
+                <HR style="border: 1px solid gray" width="100%" SIZE=3>
+                <div style="padding: 5px">
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add', plain:true," onclick="function_management.add();">新增</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit', plain:true," onclick="function_management.edit();">修改</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove', plain:true," onclick="function_management.remove();">删除</a>
+                </div>
+            </div>
+            <!--新增-->
+            <div id ="form" style="display:none;padding:8px 16px;">
+                <p style="margin-left: 48px;"><span class="required">*</span>所属菜单：<input id ="menuName" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+                <p style="margin-left: 48px;"><span class="required">*</span>功能编码：<input id ="code" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+                <p style="margin-left: 48px;"><span class="required">*</span>功能名称：<input id ="funcName" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+                <p style="margin-left: 48px;"><span class="required">*</span>接口路径：<input id ="apiPath" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+                <p style="margin-left: 23px;"><span class="required">*</span>日志记录标志：<input id="logFlag" name="logFlag" type="text" class="easyui-combobox" style=";width: 173px"/></p>
+                <p style="margin-left: 81px;">备注：<input id ="form_remark" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+            </div>
+
+            <!--修改-->
+            <div id ="edit" style="display:none;padding:8px 16px">
+                <p style="margin-left: 48px;"><span class="required">*</span>所属菜单：<input id ="menuName_edit" type ="text" class="easyui-textbox" style=";width: 173px;" readonly="readonly"/></p>
+                <p style="margin-left: 48px;"><span class="required">*</span>功能编码：<input id ="code_edit" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+                <p style="margin-left: 48px;"><span class="required">*</span>功能名称：<input id ="funcName_edit" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+                <p style="margin-left: 48px;"><span class="required">*</span>接口路径：<input id ="apiPath_edit" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+                <p style="margin-left: 23px;"><span class="required">*</span>日志记录标志：<input id="logFlag_edit" name="logFlag" type="text" class="easyui-combobox" style=";width: 173px" readonly="readonly"/></p>
+                <p style="margin-left: 81px;">备注：<input id ="remark_edit" type ="text" class="easyui-textbox" style=";width: 173px"/></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

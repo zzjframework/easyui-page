@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>King's Pay</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../js/request.js"></script>
+    <script type="text/javascript" src="userMng.js"></script>
+</head>
+<body >
+<div style="position:absolute;width:300px;left:0px;top:0px;bottom:0px;">
+    <div  class="easyui-panel"
+         style="width:100%;height:100%;padding:10px;background:#fafafa;"
+         data-options="iconCls:'icon-man',closable:false,border:true,
+    collapsible:false,minimizable:false,maximizable:false,title:'机构及人员' ">
+        <ul id="MenuTree" data-options="animate:true,lines:true"></ul>
+        <div id="leaf" class="easyui-menu" style="width: 120px;">
+            <div id="tree-edit" iconcls="icon-edit">修改</div>
+            <div id="tree-delete" iconcls="icon-remove">删除</div>
+        </div>
+        <div id="parentNode" class="easyui-menu" style="width: 120px;">
+            <div id="tree-add" iconcls="icon-add">添加用户</div>
+
+        </div>
+    </div>
+</div>
+<div style="position:absolute;left:308px;top:0px;right:0px;bottom:0px;">
+    <div class="easyui-panel" id="rolePanel" data-options="title:'用户管理',fit:true" style="position:relative;">
+        <div id="tb" style="padding:8px 16px 8px 16px">
+            <!--工具-->
+            <div style="padding: 5px;">
+                <a href="#" id="add_save_updata" class="easyui-linkbutton"
+                   data-options="iconCls:'icon-save', plain:true,">保存修改</a>
+                <a href="#" id="add_save_save" class="easyui-linkbutton"
+                   data-options="iconCls:'icon-save', plain:true,">保存新增</a>
+
+            </div>
+            <!--添加、修改-->
+            <h4 style="color:red;margin:2px;padding:2px;">用户信息:</h4>
+            <div id="add-save" style="padding-left: 10px; padding-bottom: 10px;text-align: center;">
+                <div id="form1" style="text-align:left;width:100%">
+                    <table style="width:100%;padding:8px">
+                        <tr>
+                            <td>
+                                账号：
+                            </td>
+                            <td>
+                                <input id="code" name="code" class="easyui-textbox" data-options="required:true"/>
+                            </td>
+
+                            <td>
+                                电话：
+                            </td>
+                            <td>
+                                <input id="telephone" name="telephone" class="easyui-textbox"/>
+                            </td>
+                            <td>
+                                起始ip：
+                            </td>
+                            <td>
+                                <input id="startip" name="startip" class="easyui-textbox"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="name"> 姓名：</label>
+                            </td>
+                            <td>
+                                <input id="name" name="name" class="easyui-textbox" data-options="required:true"/>
+                            </td>
+                            <td>
+                                邮箱：
+                            </td>
+                            <td>
+                                <input id="email" name="email" class="easyui-textbox"/>
+                            </td>
+                            <td>
+                                终止ip：
+                            </td>
+                            <td>
+                                <input id="endip" name="endip" class="easyui-textbox"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="newpassword"> 密码：</label>
+                            </td>
+                            <td>
+                                <input id="newpassword" name="newpassword" type="password" class="easyui-textbox"
+                                       data-options="required:true"/>
+                            </td>
+
+                            <td>
+                                代理人：
+                            </td>
+                            <td>
+                                <select id="agentid1" class="easyui-combogrid" style="width:173px">
+                                </select>
+
+                            </td>
+                            <td>
+                                状态：
+                            </td>
+                            <td>
+                                <input id="status" class="easyui-combobox" name="status"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                业务部门：
+                            </td>
+                            <td>
+                                <input id="department" name="department" class="easyui-combobox"/>
+                            </td>
+                            <td>
+                                机构权限：
+                            </td>
+                            <td>
+                                <input id="insts" name="insts" />
+                            </td>
+
+                            <input id="pId" name="pId" class="textbox" style="display:none"/>
+
+                            <input id="domainid" name="domainid" class="textbox" style="display:none"/>
+                            <input id="Id" name="Id" class="textbox" style="display:none"/>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!--功能管理-->
+            <h4 style="color:red;margin:2px;padding:2px;display: none">用户权限设置:</h4>
+
+            <div style="padding: 5px;display: none">
+                <div id="tt1" class="easyui-tabs" fit="true" border="false" plain="true"
+                     style="width:100%;height:100%">
+                    <div title="角色权限" style="overflow:hidden;padding:3px"></div>
+                    <div title="菜单权限" style="overflow:hidden;padding:3px"></div>
+                    <div title="业务权限" style="overflow:hidden;padding:3px"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div data-options="region:'west',split:true,title:'用户管理'" style="width:250px;">-->
+    <!--<ul id="MenuTree" data-options="animate:true,lines:true"></ul>-->
+    <!--<div id="leaf" class="easyui-menu" style="width: 120px;">-->
+        <!--<div id="tree-edit" iconcls="icon-edit">修改</div>-->
+        <!--<div id="tree-delete" iconcls="icon-remove">删除</div>-->
+    <!--</div>-->
+    <!--<div id="parentNode" class="easyui-menu" style="width: 120px;">-->
+        <!--<div id="tree-add" iconcls="icon-add">添加用户</div>-->
+    <!---->
+    <!--</div>-->
+<!--</div>-->
+<!--<div data-options="region:'center',title:''" style="overflow:hidden">-->
+    <!--<div id="tt" class="easyui-tabs" fit="true" border="false" plain="true" style="width:100%;height:100%">-->
+        <!--&lt;!&ndash; <div title="机构管理" style="overflow:hidden;padding:3px"></div>&ndash;&gt;-->
+        <!--<div title="用户管理" style="overflow:hidden;padding:3px">-->
+            <!--<div id="tb" style="padding:8px 16px 8px 16px">-->
+                <!--&lt;!&ndash;工具&ndash;&gt;-->
+                <!--<div style="padding: 5px;">-->
+                    <!--<a href="#" id="add_save_updata" class="easyui-linkbutton"-->
+                       <!--data-options="iconCls:'icon-save', plain:true,">保存修改</a>-->
+                    <!--<a href="#" id="add_save_save" class="easyui-linkbutton"-->
+                       <!--data-options="iconCls:'icon-save', plain:true,">保存新增</a>-->
+
+                <!--</div>-->
+                <!--&lt;!&ndash;添加、修改&ndash;&gt;-->
+                <!--<h4 style="color:red;margin:2px;padding:2px;">用户信息:</h4>-->
+                <!--<div id="add-save" style="padding-left: 10px; padding-bottom: 10px;text-align: center;">-->
+                    <!--<div id="form1" style="text-align:left;width:100%">-->
+                        <!--<table style="width:100%;padding:8px">-->
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--账号：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="code" name="code" class="easyui-textbox" data-options="required:true"/>-->
+                                <!--</td>-->
+
+                                <!--<td>-->
+                                    <!--电话：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="telephone" name="telephone" class="easyui-textbox"/>-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--起始ip：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="startip" name="startip" class="easyui-textbox"/>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--<label for="name"> 姓名：</label>-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="name" name="name" class="easyui-textbox" data-options="required:true"/>-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--邮箱：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="email" name="email" class="easyui-textbox"/>-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--终止ip：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="endip" name="endip" class="easyui-textbox"/>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--<label for="newpassword"> 密码：</label>-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="newpassword" name="newpassword" type="password" class="easyui-textbox"-->
+                                           <!--data-options="required:true"/>-->
+                                <!--</td>-->
+
+                                <!--<td>-->
+                                    <!--代理人：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<select id="agentid1" class="easyui-combogrid" style="width:173px">-->
+                                    <!--</select>-->
+
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--状态：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="status" class="easyui-combobox" name="status"/>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--业务部门：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="department" name="department" class="easyui-combobox"/>-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--机构权限：-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<input id="insts" name="insts" />-->
+                                <!--</td>-->
+
+                                <!--<input id="pId" name="pId" class="textbox" style="display:none"/>-->
+
+                                <!--<input id="domainid" name="domainid" class="textbox" style="display:none"/>-->
+                                <!--<input id="Id" name="Id" class="textbox" style="display:none"/>-->
+
+                            <!--</tr>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash;功能管理&ndash;&gt;-->
+                <!--<h4 style="color:red;margin:2px;padding:2px;">用户权限设置:</h4>-->
+
+                <!--<div style="padding: 5px">-->
+                    <!--<div id="tt1" class="easyui-tabs" fit="true" border="false" plain="true"-->
+                         <!--style="width:100%;height:100%">-->
+                        <!--<div title="角色权限" style="overflow:hidden;padding:3px"></div>-->
+                        <!--<div title="菜单权限" style="overflow:hidden;padding:3px"></div>-->
+                        <!--<div title="业务权限" style="overflow:hidden;padding:3px"></div>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</div>-->
+    <!--</div>-->
+
+<!--</div>-->
+
+</body>
+</html>

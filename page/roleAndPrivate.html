@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>机构管理</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../../iconfont/css/font-awesome.min.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../js/request.js"></script>
+    <script type="text/javascript" src="roleAndPrivate.js"></script>
+    <style>
+    *{margin:0px;padding:0px}
+        .roleList{
+            width:100%;
+        }
+        .pane-toolbar{
+            margin: -5px;
+            padding: 0;
+        }
+    .panel-btn{
+        text-decoration: none;
+        display: inline-block;
+        overflow: hidden;
+        margin: 0 16px 0 0;
+        padding: 0;
+        cursor: pointer;
+        outline: none;
+        text-align: center;
+        border: 1px solid #F9F9F9;
+        line-height: 25px;
+        vertical-align: middle;
+        font-size:12px;
+        color:#444;
+    }
+    .panel-btn :hover{border:1px solid #CCC}
+    .panel-btn span{margin-left:3px}
+        .t-panel-header{
+            padding:3px;
+            margin:0px;
+        }
+    </style>
+</head>
+<body style="">
+<div style="position:absolute;width:300px;left:0px;top:0px;bottom:0px;">
+    <div id="p" class="easyui-panel" title="角色"
+         style="width:100%;height:100%;padding:10px;background:#fafafa;"
+         data-options="iconCls:'icon-man',closable:false,
+    collapsible:false,minimizable:false,maximizable:false">
+        <ul id="roleList" class=" easyui-tree">
+        </ul>
+    </div>
+</div>
+<div style="position:absolute;left:308px;top:0px;right:0px;bottom:0px;">
+    <div class="easyui-panel" id="rolePanel" data-options="title:'',header:'#btns',fit:true,headerCls:'t-panel-header'" style="position:relative;">
+        <div id="btns"  style="">
+            <span style="margin:0 8px 0px 8px;font-size:12px;color:#444">角色编辑:</span>
+            <a class="easyui-linkbutton" data-options="iconCls:'fa fa-plus-circle',plain:true,height:'25px'" onclick="addRoleGroup()">新增角色组</a>
+            <a class="easyui-linkbutton" id="roleSaveBtn" data-options="iconCls:'fa fa-save',plain:true,height:'25px'" onclick="saveRole()" disabled="disabled">保存</a>
+        </div>
+        <div id="tb" style="padding:8px 16px 8px 16px">
+            <span style="color:red">角色信息:</span>
+            <div>
+                <span>角色ID:</span><span style="margin-left:16px"><input id="f_role_id" class="easyui-textbox" style="height:25px" disabled /></span>
+                <span>角色名称:</span><span style="margin-left:16px"><input id="f_role_name" class="easyui-textbox" style="height:25px" /></span>
+            </div>
+        </div>
+        <span style="color:red;margin-left:15px">权限设置:</span>
+        <div style="position: absolute;left:2px;top:80px;right:2px;bottom:2px">
+            <div id="tt" class="easyui-tabs" fit="true" border="false" plain="true" style="width:100%;height:100%;overflow:hidden;">
+                <div title="菜单权限" style="overflow:hidden;padding:3px;">
+                    <table id="menu_table" style="height:100%"></table>
+                </div>
+                <div title="业务权限" style="overflow:hidden;padding:3px;">
+                    <table id="bus_table" style="height:100%"></table>
+                </div>
+                <div title="赋予用户" style="overflow:hidden;padding:3px;">
+                    <table id="user_table" style="height:100%"></table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="roleGroupModal" style="display: none;padding:8px" class="easyui-dialog" data-options="width:320,height:170,top:150,left:300,title:'角色组新增',closed:true">
+    <table style="width:100%">
+        <tr style="height:35px"><td style="text-align:right">角色组ID:</td><td style="text-align:left"><input class="easyui-textbox" id="f_group_id" disabled style="width:100%"></td></tr>
+        <tr style="height:35px"><td style="text-align:right">角色组名称:</td><td style="text-align:left"><input class="easyui-textbox" id="f_group_name" style="width:100%"></td></tr>
+        <tr style="height:35px"><td style="text-align:right"></td><td style="text-align:right"> <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="roleGroupSave()">保存</a></td></tr>
+    </table>
+</div>
+<div id="roleGroupRightMenu" class="easyui-menu" style="width:120px;">
+    <div onclick="addRole()" data-options="iconCls:'icon-add'" onclick="addRole">新增角色</div>
+    <div onclick="editRoleGroup()" data-options="iconCls:'icon-edit'">编辑</div>
+    <div onclick="delRoleGroup()" data-options="iconCls:'icon-remove'">删除</div>
+</div>
+<div id="roleRightMenu" class="easyui-menu" style="width:120px;">
+    <div onclick="editRole()" data-options="iconCls:'icon-edit'">编辑</div>
+    <div onclick="delRole()" data-options="iconCls:'icon-remove'">删除</div>
+</div>
+<input id="rightMenuClickedRowId" type="hidden">
+<input id="isRoleGroupNew" type="hidden">
+<input id="isRoleNew" type="hidden">
+</body>
+</html>

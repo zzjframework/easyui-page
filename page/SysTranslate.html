@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>King's Pay</title>
+	<link rel="stylesheet" type="text/css" href="../../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="SysTranslate.js"></script>
+	<script type="text/javascript" src="../../js/request.js"></script>
+</head>
+<body >
+<div style="position:absolute;width:300px;left:0px;top:0px;bottom:0px;">
+	<div class="easyui-panel"  data-options="title:'',fit:true," style="position:relative;">
+		<div style="padding:5px;background:#fafafa;width:100%;border-bottom:1px solid #ccc;" fit="true">
+			<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-reload" onclick="menulist();">翻译表名称</a>
+		</div>
+		<ul id="tree"   data-options="border:false"></ul>
+	</div>
+</div>
+<div style="position:absolute;left:308px;top:0px;right:0px;bottom:0px;">
+	<table id="table" style="border:1px solid red"></table>
+	<div id="tb" style="padding:8px 16px 8px 16px">
+		<!--搜索-->
+		<div style="padding-left: 10px; padding-bottom: 10px;">
+			<input id="q_id" name="name" type="hidden" class="easyui-textbox" style="display:none" />
+			名称：
+			<input id="q_name" name="name" type="text" class="easyui-textbox" style="width: 130px;" />
+			配置数量：
+			<input id="q_cnt" name="time_from" type="text" data-options="validType:'length[1,10]'" class="easyui-textbox" style="width: 130px;" />
+			<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'," style="margin-left: 20px; padding: 0 10px 0 10px;">搜索</a>
+		</div>
+	</div>
+	<div id ="form" style="display:none;padding:8px 16px" height="500px" width="700px">
+		<div id="tb1" style="height:auto"></div>
+		<table id="table1" style="border:1px solid red" fit="true">
+			<!-- <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">Append</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">Remove</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">Accept</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">Reject</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="getChanges()">GetChanges</a> -->
+			<button type="button" onclick="append();" class="ant-btn ant-btn-dashed" style="width: 100%; margin-top: 16px; margin-bottom: 8px;"><i class="anticon anticon-plus"></i><span>新增数据</span></button>
+		</table>
+	</div>
+</div>
+			<!--&lt;!&ndash; 翻译菜单 &ndash;&gt;-->
+            <!--<div data-options="region:'west',split:true"  style="width:200px;overflow:hidden">-->
+					<!--<div style="padding:5px;background:#fafafa;width:200px;border-bottom:1px solid #ccc;" fit="true">-->
+							<!--<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-reload" onclick="menulist();">翻译表名称</a>		-->
+						<!--</div>-->
+					<!--<ul id="tt" class="easyui-tree"style="height:100%;" data-options="border:false">-->
+							<!---->
+						<!--</ul>-->
+			<!--</div>-->
+			<!--&lt;!&ndash; 翻译内容 &ndash;&gt;-->
+            <!--<div data-options="region:'center',iconCls:'icon-ok',border:false">-->
+                            <!--<table id="table" style="border:1px solid red"></table>-->
+                            <!--<div id="tb" style="padding:8px 16px 8px 16px">-->
+                                <!--&lt;!&ndash;搜索&ndash;&gt;-->
+                                <!--<div style="padding-left: 10px; padding-bottom: 10px;">-->
+									<!--<input id="q_id" name="name" type="hidden" class="easyui-textbox" style="display:none" />-->
+									<!--名称：-->
+									<!--<input id="q_name" name="name" type="text" class="easyui-textbox" style="width: 130px;" />-->
+									<!--配置数量：-->
+									<!--<input id="q_cnt" name="time_from" type="text" data-options="validType:'length[1,10]'" class="easyui-textbox" style="width: 130px;" />-->
+                                    <!--<a id="search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'," style="margin-left: 20px; padding: 0 10px 0 10px;">搜索</a>-->
+                                <!--</div>-->
+                            <!--</div>     -->
+			<!--</div>-->
+			<!--&lt;!&ndash;设置页面&ndash;&gt;-->
+	<!--<div id ="form" style="display:none;padding:8px 16px" height="50%" width="60%">-->
+			<!--<table id="table1" style="border:1px solid red" fit="true"><div id="tb" style="height:auto">-->
+					<!--&lt;!&ndash; <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">Append</a>-->
+					<!--<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">Remove</a>-->
+					<!--<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">Accept</a>-->
+					<!--<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">Reject</a>-->
+					<!--<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="getChanges()">GetChanges</a> &ndash;&gt;-->
+					<!--<button type="button" onclick="append();" class="ant-btn ant-btn-dashed" style="width: 100%; margin-top: 16px; margin-bottom: 8px;"><i class="anticon anticon-plus"></i><span>新增数据</span></button>-->
+				<!--</table>-->
+		<!--</div>-->
+</body>
+</html>

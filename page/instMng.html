@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>机构管理</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../js/request.js"></script>
+    <script type="text/javascript" src="instMng.js"></script>
+    <style>
+    *{margin:0;padding:0}
+    </style>
+</head>
+<body>
+<div style="position:absolute;top:0;left:0;right: 0;bottom: 0;">
+    <table id="table" style="border:1px solid red"></table>
+    <div id="tb" style="padding:8px 16px 8px 16px">
+        <!--搜索-->
+        <div>
+            <a id="search" href="javascripg:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'," style="margin-left: 20px; padding: 0 10px 0 10px;" onclick="query();">搜索</a>
+            <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="save()">保存</a>
+            <a class="easyui-linkbutton" data-options="iconCls:'icon-redo'" onclick="cancelEdit()">取消</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

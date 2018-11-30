@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>机构管理</title>
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../easyui/themes/icon.css">
+    <script type="text/javascript" src="../../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../js/request.js"></script>
+    <script type="text/javascript" src="departmentMng.js"></script>
+    <style>
+        *{margin:0px;padding:0px}
+    </style>
+</head>
+<body style="">
+<div style="position:absolute;width:300px;left:0px;top:0px;bottom:0px;">
+    <div id="p" class="easyui-panel" title="角色"
+         style="width:100%;height:100%;padding:10px;background:#fafafa;"
+         data-options="iconCls:'icon-man',closable:false,
+    collapsible:false,minimizable:false,maximizable:false">
+        <ul id="instList" class="easyui-tree">
+        </ul>
+    </div>
+</div>
+<div style="position:absolute;left:308px;top:0px;right:0px;bottom:0px;">
+    <div class="easyui-panel" data-options="fit:true,title:'机构信息'">
+        <form id="instForm">
+            <table style="width:100%;padding:8px">
+                <tr style="height:35px"><td>机构编码:</td><td><input id="code" name="code" class="easyui-textbox"></td><td>机构级别:</td><td><input id="levels" name="levels" class="easyui-textbox"></td></tr>
+                <tr style="height:35px"><td>核算机构:</td><td><input id="totalcode" name="totalcode" class="easyui-combotree" data-options="textField:'name',idField:'id'"></td><td>停用日期:</td><td><input id="disdate" name="disdate" class="easyui-datebox"></td></tr>
+                <tr style="height:35px"><td>机构名称:</td><td colspan="3"><input id="name"  name="name" name="totalcode" class="easyui-textbox" style="width:100%"></td></tr>
+                <tr style="height:35px"><td>应用部门:</td><td colspan="3"><input id="departments" name="departments" class="easyui-combotree" style="width:80%"><a class="easyui-linkbutton" data-options="iconCls:'icon-filter'">管理</a></td></tr>
+                <tr style="height:35px"><td><a id="instSaveBtn" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="instSave()" disabled="disabled">保存</a></td></table>
+            </table>
+            <input id="id" type="hidden" value="">
+            <input id="pId" type="hidden" value="">
+            <input id="domainid" type="hidden" value="">
+        </form>
+    </div>
+</div>
+
+<div id="instRightMenu" class="easyui-menu" style="width:120px;">
+    <div onclick="instAdd()" data-options="iconCls:'icon-add'" onclick="addRole">新增机构</div>
+    <div onclick="instUpdate()" data-options="iconCls:'icon-edit'">编辑</div>
+    <div onclick="instDel()" data-options="iconCls:'icon-remove'">删除</div>
+</div>
+<input id="isInstNew" type="hidden">
+</body>
+</html>
